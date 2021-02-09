@@ -1,3 +1,4 @@
+require('dotenv').config()
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,13 +7,35 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var formsRouter = require('./routes/forms')
+var formsRouter = require('./routes/forms');
+var sessionsRouter = require('./routes/sessions');
 
 var app = express();
 
+var session = require('express-session');
+var MySQLStore = require('express-mysql-session')(session);
+
+var options = {
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_DATABASE
+}
+var sessionStore = new MySQLStore(options)
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+
+app.use(session({
+  key: 'test',
+  secret: process.env.SESSION_SECRET,
+  store: sessionStore,
+  resave: false,
+  clearExpired: true,
+  saveUninitialized: true,
+  createDatabaseTable: true
+}))
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -31,6 +54,7 @@ app.get('/', (req, res) => { //load front end
 app.use('/api/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/forms', formsRouter);
+app.use('/api/sessions', sessionsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
