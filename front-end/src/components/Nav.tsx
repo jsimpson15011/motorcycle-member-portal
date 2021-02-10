@@ -47,6 +47,7 @@ const authContext = createContext<IauthContext>({
 interface IProps {
     children: JSX.Element
     path: string
+    exact?: any
 }
 
 const ProvideAuth = ({children}: { children: JSX.Element }) => {
@@ -124,21 +125,29 @@ function PrivateRoute({children, ...rest}: IProps) {
 
 function AdminRoute({children, ...rest}: IProps) {
     let auth = useAuth();
-    console.log(auth)
+
     return (
         <Route
             {...rest}
-            render={({location}) =>
-                auth.user?.isAdmin ? (
-                    children
-                ) : (
-                    <Redirect
+            render={({location}) => {
+                if (auth.user?.isAdmin) {
+                    return children
+                } else if (auth.user) {
+                    return <Redirect
+                        to={{
+                            pathname: "/privilege-page",
+                            state: {from: location}
+                        }}
+                    />
+                } else {
+                    return <Redirect
                         to={{
                             pathname: "/login",
                             state: {from: location}
                         }}
                     />
-                )
+                }
+            }
             }
         />
     );
@@ -206,10 +215,12 @@ const Nav = () => {
                 </nav>
 
                 <Switch>
-                    <Route exact path="/">
-                        <Home/>
-                        <AuthButton/>
-                    </Route>
+                    <AdminRoute exact path="/">
+                        <div>
+                            <Home/>
+                            <AuthButton/>
+                        </div>
+                    </AdminRoute>
                     <PrivateRoute path="/private">
                         <div>you're logged in.</div>
                     </PrivateRoute>
@@ -219,6 +230,12 @@ const Nav = () => {
                     <Route exact path="/login">
                         <div>Please Login</div>
                         <LoginPage/>
+                    </Route>
+                    <Route exact path="/privilege-page">
+                        <div>
+                            <h2>You do not have permission to view this page.</h2>
+                            <Link to="/login">Please Log Out Here, and Log in with your admin account</Link>
+                        </div>
                     </Route>
                 </Switch>
             </Router>
