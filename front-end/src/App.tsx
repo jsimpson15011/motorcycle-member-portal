@@ -1,12 +1,16 @@
 import React from 'react';
 import './App.css';
-import Nav from "./components/Nav";
+import Nav from "./modules/system/components/Nav";
+import {Provider} from "react-redux";
+import store from "./modules";
 
 function App() {
   return (
-    <div className="App">
-        <Nav/>
-    </div>
+      <Provider store={store}>
+          <div className="App">
+              <Nav/>
+          </div>
+      </Provider>
   );
 }
 
