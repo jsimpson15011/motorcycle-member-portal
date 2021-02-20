@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Nav from "./modules/system/components/Nav";
+import Nav from "./modules/system/components/Nav/Nav";
 import {Provider} from "react-redux";
 import store from "./modules";
 

@@ -1,13 +1,11 @@
 import React from "react";
-import LoginForm from "../modules/system/components/LoginForm";
-import Header from "../components/Header";
+import Layout from "../components/Layout/Layout";
 
 const Home = () => {
     return(
-        <div>
-            <Header/>
-            <LoginForm/>
-        </div>
+        <Layout>
+            <h1>Home</h1>
+        </Layout>
     )
 }
 
