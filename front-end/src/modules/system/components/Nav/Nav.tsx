@@ -12,7 +12,7 @@ import {getUser} from "../../selectors";
 import LoginPage from "../../../../pages/LoginPage";
 import {AdminRoute, PrivateRoute} from "./components/Routes";
 import Permission from "../../../../pages/admin/Permission";
-import Admin from "../../../../pages/admin/Admin";
+import Dashboard from "../../../../pages/admin/Dashboard";
 
 const Nav = ({user}: { user: IUser }) => {
     return (
@@ -21,8 +21,8 @@ const Nav = ({user}: { user: IUser }) => {
                 <PrivateRoute user={user} exact path="/">
                     <Home/>
                 </PrivateRoute>
-                <AdminRoute user={user} exact path="/admin">
-                    <Admin/>
+                <AdminRoute user={user} path="/admin">
+                    <Dashboard/>
                 </AdminRoute>
                 <Route exact path="/login">
                     <LoginPage/>
