@@ -13,7 +13,7 @@ const Dashboard = () => {
                 <Route exact path={path}>
                     <div>Welcome</div>
                 </Route>
-                <Route path={`${path}/:screenId`}>
+                <Route path={`${path}/:screenId/:action?/:id?`}>
                     <Screen/>
                 </Route>
             </Switch>

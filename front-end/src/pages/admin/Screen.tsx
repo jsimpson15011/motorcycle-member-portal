@@ -3,9 +3,6 @@ import {useParams} from "react-router-dom";
 import * as screenComponents from "./screens";
 
 const Screen = () => {
-
-    console.log(screenComponents.Users)
-
     let {screenId} = useParams<Record<string, string | undefined>>();
     const screens = [
         {
