@@ -18,10 +18,12 @@ export const fetchUser = (
 }
 
 export const updateUser = (
-    id: number
+    userInfo: IUser, id?: number|null
 ): AppThunk => async dispatch => {
-    const response = await axios.get("/api/users")
+    await axios.post(id ? "/api/users/" + id : "/api/users", {...userInfo})
+
+    const users = await axios.get("/api/users")
     dispatch(
-        getUser(response.data)
+        getUser(users.data)
     )
 }
